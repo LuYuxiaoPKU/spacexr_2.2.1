@@ -123,6 +123,7 @@ import_weights <- function(myRCTD, weights) {
   set_global_Q_all()
   myRCTD@internal_vars$Q_mat <- Q_mat_all[['100']]
   myRCTD@internal_vars$X_vals <- X_vals
+  myRCTD@config$RCTDmode <- 'full'
   return(myRCTD)
 }
 
