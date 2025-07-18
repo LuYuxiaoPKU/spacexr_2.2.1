@@ -179,8 +179,21 @@ aggregate_cell_types <- function(myRCTD, barcodes, doublet_mode = T) {
 #' @return a named vector of number of pixel occurrences for each cell type
 #' @export
 count_cell_types <- function(myRCTD, barcodes, cell_types, cell_type_threshold = 125,
-                             doublet_mode = T, weight_threshold = NULL) {
-  cell_types <- choose_cell_types(myRCTD, barcodes, doublet_mode, cell_type_threshold, cell_types)
+                             doublet_mode = T, weight_threshold = NULL, cell_type_filter = NULL) {
+  cell_type_info <- myRCTD@cell_type_info$info
+  if(doublet_mode) {
+    my_beta <- get_beta_doublet(barcodes, cell_type_info[[2]], myRCTD@results$results_df, myRCTD@results$weights_doublet)
+    thresh <- 0.999
+  } else if(myRCTD@config$RCTDmode == "multi") {
+    my_beta <- get_beta_multi(barcodes, cell_type_info[[2]], myRCTD@results, myRCTD@spatialRNA@coords)
+    thresh <- 0.999
+  } else {
+    my_beta <- as.matrix(sweep(myRCTD@results$weights, 1, rowSums(myRCTD@results$weights), '/'))
+    thresh <- 0.8
+  }
+  cell_types <- choose_cell_types(myRCTD, barcodes, doublet_mode,
+                                  cell_type_threshold, cell_types, my_beta,
+                                  thresh, cell_type_filter)
   if(doublet_mode && myRCTD@config$RCTDmode != 'doublet')
     stop('run.CSIDE.general: attempted to run CSIDE in doublet mode, but RCTD was not run in doublet mode. Please run CSIDE in full mode (doublet_mode = F) or run RCTD in doublet mode.')
   cell_type_info <- myRCTD@cell_type_info$info
