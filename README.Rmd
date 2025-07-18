@@ -20,8 +20,7 @@ knitr::opts_chunk$set(
 
 Welcome to *spacexr*, an R package for learning cell types and cell type-specific differential expression in spatial transcriptomics data. 
 
-Robust Cell Type Decomposition (RCTD) inputs a spatial transcriptomics dataset, which consists of a set of *pixels*, which are spatial locations
-that measure RNA counts across many genes. RCTD additionally uses a single cell RNA-seq (scRNA-seq)
+Robust Cell Type Decomposition (RCTD) inputs a spatial transcriptomics dataset, which consists of a set of *pixels*, which are spatial locations that measure RNA counts across many genes. RCTD additionally uses a single cell RNA-seq (scRNA-seq)
 dataset, which is labeled for cell types. RCTD learns cell type profiles from the scRNA-seq dataset,
 and uses these to label the spatial transcriptomics pixels as cell types. RCTD has been tested across a 
 variety of spatial transcriptomics technologies including imaging-based (e.g. MERFISH) 
